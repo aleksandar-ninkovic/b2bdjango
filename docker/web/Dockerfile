@@ -12,7 +12,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # Copy requirements file and install dependencies
 COPY requirements.txt /app/
-#RUN pip install requests==2.31.0
 RUN pip install --no-cache-dir -r requirements.txt
 
 
