@@ -88,11 +88,19 @@ WSGI_APPLICATION = 'b2bdjango.wsgi.application'
 
 DATABASES = {
     'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',  # Match this with the POSTGRES_DB env variable
+        'USER': 'postgres',  # Match this with POSTGRES_USER
+        'PASSWORD': 'postgres',  # Match this with POSTGRES_PASSWORD
+        # 'HOST': 'postgres_db',  # The service name from docker-compose.yml
+        'HOST': '172.19.0.2',  # The service name from docker-compose.yml
+        'PORT': '5432',  # Default PostgreSQL port
+    },
+    'sqlite': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators

@@ -19,7 +19,8 @@ services:
       - DB_HOST=postgres_db
       - DB_PORT=5432
     depends_on:
-      - postgres_db
+      postgres_db:
+        condition: service_healthy
 
   postgres_db:
     image: postgres:15
@@ -28,6 +29,11 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: postgres
+    healthcheck:
+      test: [ "CMD-SHELL", 'pg_isready -U "$POSTGRES_USER"' ]
+      interval: 1s
+      timeout: 5s
+      retries: 5
     ports:
       - "5432:5432"
     volumes:
