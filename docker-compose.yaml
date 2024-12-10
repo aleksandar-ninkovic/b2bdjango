@@ -30,8 +30,8 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: postgres
     healthcheck:
-      test: [ "CMD-SHELL", 'pg_isready -U "$POSTGRES_USER"' ]
-      interval: 1s
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 2s
       timeout: 5s
       retries: 5
     ports:
@@ -39,5 +39,17 @@ services:
     volumes:
       - ./docker/postgres_db:/docker-entrypoint-initdb.d
 
+  mongodb:
+    image: mongo:latest
+    container_name: "mongo_db"
+    environment:
+      - "MONGO_DATA_DIR=/data/db"
+      - "MONGO_LOG_DIR=/dev/null"
+    volumes:
+      - mongo_data:/data/db
+    ports:
+      - 27017
+
 volumes:
   postgres_data:
+  mongo_data:

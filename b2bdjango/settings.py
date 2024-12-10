@@ -92,8 +92,7 @@ DATABASES = {
         'NAME': 'postgres',  # Match this with the POSTGRES_DB env variable
         'USER': 'postgres',  # Match this with POSTGRES_USER
         'PASSWORD': 'postgres',  # Match this with POSTGRES_PASSWORD
-        # 'HOST': 'postgres_db',  # The service name from docker-compose.yml
-        'HOST': '172.19.0.2',  # The service name from docker-compose.yml
+        'HOST': 'postgres_db',  # The service name from docker-compose.yml
         'PORT': '5432',  # Default PostgreSQL port
     },
     'sqlite': {
