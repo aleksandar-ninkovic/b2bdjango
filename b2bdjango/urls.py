@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path
 from django.urls import path
 
-from auth.views import RegisterAPIView, LoginAPIView, LogoutAPIView
+from b2b_auth.views import RegisterAPIView, LoginAPIView, LogoutAPIView
 
 urlpatterns = [
     path('register/', RegisterAPIView.as_view(), name='register'),

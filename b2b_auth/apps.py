@@ -1,9 +1,8 @@
 from django.apps import AppConfig
 
-
-class AuthConfig(AppConfig):
+class B2BAuthConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'auth'
+    name = 'b2b_auth'
 
     def ready(self):
-        import auth.signals
+        import b2b_auth.signals

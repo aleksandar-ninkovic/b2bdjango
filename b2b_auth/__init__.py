@@ -1,0 +1,1 @@
+default_app_config = 'b2b_auth.apps.B2BAuthConfig'
