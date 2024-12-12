@@ -11,8 +11,8 @@ class UserProfile(models.Model):
     def get_profile(self):
         return self
 
-    def __str__(self):
-        return f"Profile of {self.user.username}"
+    # def __str__(self):
+    #     return f"Profile of {self.user.username}"
 
 # Extend the User model with a profile property
 def get_profile(self):

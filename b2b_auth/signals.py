@@ -12,7 +12,7 @@ def create_user_profile(sender, instance, created, **kwargs):
 
         # Create the UserProfile in MongoDB via the repository
         mongo_repo = MongoRepository()
-        mongo_repo.insert_one({
+        mongo_repo.insert_one("user_profiles",{
             "user": instance.username,
             "bio": "",
             "avatar_url": "",
