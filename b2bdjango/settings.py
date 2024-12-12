@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -20,17 +20,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-yo)a4&yzsuu%wmcb93^r7oi!%%0nvscpm%a+h5d&k^f4g4isab'
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DEBUG")
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS").split(" ")
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'b2bdjango'
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -88,18 +89,35 @@ WSGI_APPLICATION = 'b2bdjango.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',  # Match this with the POSTGRES_DB env variable
-        'USER': 'postgres',  # Match this with POSTGRES_USER
-        'PASSWORD': 'postgres',  # Match this with POSTGRES_PASSWORD
-        'HOST': 'postgres_db',  # The service name from docker-compose.yml
-        'PORT': '5432',  # Default PostgreSQL port
+        'ENGINE': os.getenv("POSTGRES_ENGINE"),
+        'NAME': os.getenv("POSTGRES_DB"),
+        'USER': os.getenv("POSTGRES_USER"),
+        'PASSWORD': os.getenv("POSTGRES_PASSWORD"),
+        'HOST': os.getenv("POSTGRES_HOST"),
+        'PORT': os.getenv("POSTGRES_PORT")
+    },
+    'mongo': {
+        'ENGINE': '',
+        'NAME': os.getenv("MONGODB_DB"),  # Set your desired database name
+        'USER': os.getenv("MONGODB_USER"),
+        'PASSWORD': os.getenv("MONGODB_PASSWORD"),
+        'HOST': os.getenv("MONGODB_HOST"),
+        'PORT': int(os.getenv("MONGODB_PORT")),
     },
     'sqlite': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+MONGO_DB_CONFIG = {
+    'HOST': os.getenv('MONGODB_HOST', 'mongo_db'),
+    'PORT': int(os.getenv('MONGODB_PORT', 27017)),
+    'DB_NAME': os.getenv('MONGODB_DB', 'b2bdjango'),
+    'USER': os.getenv('MONGODB_USER', 'b2badmin'),
+    'PASSWORD': os.getenv('MONGODB_PASSWORD', 'secret'),
+}
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -123,13 +141,10 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
-
-USE_I18N = True
-
-USE_TZ = True
+LANGUAGE_CODE = os.getenv("LANGUAGE_CODE")
+TIME_ZONE = os.getenv("TIME_ZONE")
+USE_I18N = os.getenv("USE_I18N")
+USE_TZ = os.getenv("USE_TZ")
 
 
 # Static files (CSS, JavaScript, Images)
