@@ -11,13 +11,8 @@ services:
     working_dir: /app
     ports:
       - "8000:8000"
-    environment:
-      - DEBUG=True
-      - DB_NAME=postgres
-      - DB_USER=postgres
-      - DB_PASSWORD=postgres
-      - DB_HOST=postgres_db
-      - DB_PORT=5432
+    env_file:
+      - .env
     depends_on:
       postgres_db:
         condition: service_healthy
@@ -25,12 +20,10 @@ services:
   postgres_db:
     image: postgres:15
     container_name: postgres_db
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: postgres
+    env_file:
+      - .env
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      test: [ "CMD-SHELL", "pg_isready --user=b2badmin --dbname=b2bdjango" ]
       interval: 2s
       timeout: 5s
       retries: 5
@@ -40,15 +33,15 @@ services:
       - ./docker/postgres_db:/docker-entrypoint-initdb.d
 
   mongodb:
-    image: mongo:latest
+    image: mongo:8.0
     container_name: "mongo_db"
-    environment:
-      - "MONGO_DATA_DIR=/data/db"
-      - "MONGO_LOG_DIR=/dev/null"
+    env_file:
+      - .env
     volumes:
       - mongo_data:/data/db
+      - ./docker/mongo_db/init.sh:/docker-entrypoint-initdb.d/init.sh:ro
     ports:
-      - 27017
+      - "27017:27017"
 
 volumes:
   postgres_data:
